@@ -1,6 +1,6 @@
 {
   "name": "you-again",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "description": "You-Again Login and Authentication Manager. It will handle name/password logins, plus oauth based Twitter/Facebook/etc logins.",
   "author": "Daniel Winterstein",
   "homepage": "https://github.com/winterstein/you-again#readme",

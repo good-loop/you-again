@@ -361,15 +361,28 @@ Assumes:
 			setLoginError({id:'missing-password', text:'Missing input: Password'});
 			return Promise.resolve(null); // fail
 		}
+		return login2({action:'login', person, password});
+	};
+
+	const login2 = function(loginInfo) {
 		// clear any cookies
 		logout2();
 		// now try to login
-		let pLogin = aget(Login.ENDPOINT, {action:'login', person:person, password:password});
+		let pLogin = aget(Login.ENDPOINT, loginInfo);
 		pLogin = pLogin.then(setStateFromServerResponse)
 				.fail(function(res) {
 					Login.error = {id: res.statusCode, text: res.statusText};	
 				});
 		return pLogin;
+	};
+
+	/**
+	* Register a new user, typically with email & password
+	@param registerInfo {email:string, password:string} + other info??
+	*/
+	Login.register = function(registerInfo) {		
+		registerInfo.action = 'signup';
+		return login2(registerInfo);
 	};
 
 	/**
@@ -481,17 +494,6 @@ Assumes:
 			);
 		});
 	}; // ./doFBLogin_connected()
-
-	/**
-	* Register a new user, typically with email & password
-	@param registerInfo {email:string, password:string}
-	*/
-	Login.register = function(registerInfo) {
-		registerInfo.action = 'signup';
-		var request = aget(Login.ENDPOINT, registerInfo);
-		request = request.then(setStateFromServerResponse);
-		return request;
-	};
 
 
 	/**
